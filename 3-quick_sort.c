@@ -6,58 +6,6 @@ void recursive_sort(int *arr, size_t arr_size, int start, int end);
 void quick_sort(int *arr, size_t arr_size);
 
 /**
- * exchange_values - Swap two integers in an array.
- * @first: The first intege.
- * @second: The second integer.
- */
-void exchange_values(int *first, int *second)
-{
-int temp;
-
-temp = *first;
-*first = *second;
-*second = temp;
-}
-
-/**
- * partition_array - Order a subset of an array of integers.
- * @arr: The array of integers.
- * @arr_size: The size of the array.
- * @start: The starting index of the subset.
- * @end: The ending index of the subset.
- * Return: The final partition index.
- */
-int partition_array(int *array, size_t size, int start, int end)
-{
-    int *pivot, above, below;
-
-    pivot = array + end;
-    above = start;
-    below = start;
-
-    for (below = start; below < end; below++)
-    {
-        if (array[below] < *pivot)
-        {
-            if (above < below)
-            {
-                exchange_values(array + below, array + above);
-print_array(array, size);
-            }
-            above++;
-        }
-    }
-
-    if (array[above] > *pivot)
-    {
-        exchange_values(array + above, pivot);
-print_array(array, size);
-    }
-
-    return above;
-}
-
-/**
  * recursive_sort - Implement the quicksort algorithm recursively.
  * @arr: An array of integers to sort.
  * @arr_size: The size of the array.
@@ -77,6 +25,56 @@ recursive_sort(arr, arr_size, partition_index +   1, end);
 }
 }
 
+/**
+ * exchange_values - Swap two integers in an array.
+ * @first: The first intege.
+ * @second: The second integer.
+ */
+void exchange_values(int *first, int *second)
+{
+int temp;
+
+temp = *first;
+*first = *second;
+*second = temp;
+}
+
+/**
+ * partition_array - Order a subset of an array of integers.
+ * @array: The array of integers.
+ * @size: The size of the array.
+ * @start: The starting index of the subset.
+ * @end: The ending index of the subset.
+ * Return: The final partition index.
+ */
+int partition_array(int *array, size_t size, int start, int end)
+{
+int *pivot, above, below;
+
+pivot = array + end;
+above = start;
+below = start;
+
+for (below = start; below < end; below++)
+{
+if (array[below] < *pivot)
+{
+if (above < below)
+{
+exchange_values(array + below, array + above);
+print_array(array, size);
+}
+above++;
+}
+}
+
+if (array[above] > *pivot)
+{
+exchange_values(array + above, pivot);
+print_array(array, size);
+}
+return (above);
+}
 /**
  * quick_sort - Sort an array of integers in ascending order.
  * @arr: An array of integers.
