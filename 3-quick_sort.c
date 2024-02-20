@@ -1,86 +1,94 @@
 #include "sort.h"
 
-/*Helper Function*/
-void quick_sort_rec(int *array, size_t low, size_t high);
-void swap_int(int *a, int *b);
-size_t partition(int *array, size_t low, size_t high);
+void exchange_values(int *first, int *second);
+int partition_array(int *array, size_t size, int start, int end);
+void recursive_sort(int *arr, size_t arr_size, int start, int end);
+void quick_sort(int *arr, size_t arr_size);
 
 /**
-* swap_int - Swaps two integers.
-* @a: First integer being swapped.
-* @b: Second integer being swapped.
-* Return: Nothing
-*/
-void swap_int(int *a, int *b)
+ * exchange_values - Swap two integers in an array.
+ * @first: The first intege.
+ * @second: The second integer.
+ */
+void exchange_values(int *first, int *second)
 {
-int temp = *a;
-*a = *b;
-*b = temp;
-}
+int temp;
 
-/**
-* partition - Partition the array around the pivot.
-* @array: Array to partition.
-* @low: The index of the first element in the partition.
-* @high: The index of the last element in the partition.
-* Return: The index of the pivot element after partitioning.
-*/
-size_t partition(int *array, size_t low, size_t high)
-{
-int p_point = array[high];
-size_t n = low - 1;
-size_t m = low;
-
-if (array == NULL || low > high)
-{
-return (0);
-}
-for (; m < high; m++)
-{
-if (array[m] <= p_point)
-{
-n++;
-swap_int(array + n, array + m);
-print_array(array, high - low + 1);
-}
-}
-swap_int(array + n + 1, array + high);
-print_array(array, high - low + 1);
-
-return (n + 1);
+temp = *first;
+*first = *second;
+*second = temp;
 }
 
 /**
-* quick_sort - Sort an array of integers in ascending order.
-* @array: The array to sort.
-* @size: The number of elements in the array.
-* Return: Nothing.
-*/
-void quick_sort(int *array, size_t size)
+ * partition_array - Order a subset of an array of integers.
+ * @arr: The array of integers.
+ * @arr_size: The size of the array.
+ * @start: The starting index of the subset.
+ * @end: The ending index of the subset.
+ * Return: The final partition index.
+ */
+int partition_array(int *array, size_t size, int start, int end)
 {
-if (array == NULL || size < 2)
+    int *pivot, above, below;
+
+    pivot = array + end;
+    above = start;
+    below = start;
+
+    for (below = start; below < end; below++)
+    {
+        if (array[below] < *pivot)
+        {
+            if (above < below)
+            {
+                exchange_values(array + below, array + above);
+print_array(array, size);
+            }
+            above++;
+        }
+    }
+
+    if (array[above] > *pivot)
+    {
+        exchange_values(array + above, pivot);
+print_array(array, size);
+    }
+
+    return above;
+}
+
+/**
+ * recursive_sort - Implement the quicksort algorithm recursively.
+ * @arr: An array of integers to sort.
+ * @arr_size: The size of the array.
+ * @start: The starting index.
+ * @end: The ending index.
+ * Return: Nothing
+ */
+void recursive_sort(int *arr, size_t arr_size, int start, int end)
+{
+int partition_index;
+
+if (end - start >   0)
+{
+partition_index = partition_array(arr, arr_size, start, end);
+recursive_sort(arr, arr_size, start, partition_index -   1);
+recursive_sort(arr, arr_size, partition_index +   1, end);
+}
+}
+
+/**
+ * quick_sort - Sort an array of integers in ascending order.
+ * @arr: An array of integers.
+ * @arr_size: The size of the array.
+ * Return: Nothing.
+ */
+void quick_sort(int *arr, size_t arr_size)
+{
+if (arr == NULL || arr_size <   2)
 {
 return;
 }
-quick_sort_rec(array, 0, size - 1);
-}
 
-/**
-* quick_sort_rec - Recursive helper function for quick_sort.
-* @array: The array to sort.
-* @low: The index of the first element in the partition.
-* @high: The index of the last element in the partition.
-* Return: Nothing.
-*/
-void quick_sort_rec(int *array, size_t low, size_t high)
-{
-size_t piv_index;
-
-if (array == NULL || low >= high)
-{
-return;
-}
-piv_index = partition(array, low, high);
-quick_sort_rec(array, low, piv_index - 1);
-quick_sort_rec(array, piv_index + 1, high);
+recursive_sort(arr, arr_size, 0, arr_size - 1);
 }
