@@ -22,8 +22,7 @@ int temp = *a;
 */
 void shell_sort(int *array, size_t size)
 {
-size_t n;
-int m, gap;
+size_t n, m, gap;
 
 if (array == NULL || size < 2)
 {
@@ -39,10 +38,10 @@ m = n;
 while (m >= gap && array[m] < array[m - gap])
 {
 swap(&array[m], &array[m - gap]);
-print_array(array, size);
 
 m -= gap;
 }
 }
+print_array(array, size);
 }
 }
