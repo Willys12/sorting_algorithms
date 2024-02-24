@@ -25,6 +25,11 @@ void shell_sort(int *array, size_t size)
 size_t n;
 int m, gap;
 
+if (array == NULL || size < 2)
+{
+return;
+}
+
 for (gap = size / 2; gap > 0; gap = (gap + 1) / 3)
 {
 n = gap;
