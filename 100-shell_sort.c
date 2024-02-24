@@ -22,14 +22,19 @@ int temp = *a;
 */
 void shell_sort(int *array, size_t size)
 {
-size_t n, m, gap;
+size_t n, m, gap = 1;
 
 if (array == NULL || size < 2)
 {
 return;
 }
 
-for (gap = size / 2; gap > 0; gap = (gap + 1) / 3)
+while (gap < (size / 3))
+{
+gap = gap * 3 + 1;
+}
+
+while (gap >= 1)
 {
 n = gap;
 for (; n < size; n++)
@@ -43,5 +48,6 @@ m -= gap;
 }
 }
 print_array(array, size);
+gap /= 3;
 }
 }
